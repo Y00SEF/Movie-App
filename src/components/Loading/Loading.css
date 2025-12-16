@@ -1,0 +1,13 @@
+.loading-container {
+  background-color: #121212; /* Dark background matching your app */
+  min-height: 100vh;
+}
+
+.spinner-border {
+  border-color: #ff3d71 !important; /* Custom color to match your theme */
+  border-right-color: transparent !important;
+}
+
+.text-primary {
+  color: #ff3d71 !important; /* Override Bootstrap primary color */
+}
