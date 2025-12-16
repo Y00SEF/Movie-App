@@ -91,7 +91,7 @@ export default function LoginForm() {
 
                   <div className="d-grid">
                     <button type="submit" className="btn signup-btn ">
-                      Create Account
+                      Log In
                     </button>
                   </div>
                 </form>
