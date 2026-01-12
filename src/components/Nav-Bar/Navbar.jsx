@@ -1,8 +1,18 @@
-import Riact, { useState } from "react";
-import { Link, NavLink } from "react-router";
+import React, { useContext } from "react";
+import { Link, NavLink, useNavigate } from "react-router-dom";
+import { ContextData } from "../../ContectContent/ContextContent";
 
 export default function NavBar() {
-  const [activeLink, setActiveLink] = useState("");
+  const { UserToken, setUserToken } = useContext(ContextData);
+  const navigate = useNavigate();
+
+  const handleSignOut = () => {
+    localStorage.removeItem("UserToken");
+    setUserToken(null); // <-- Navbar يتحدث فورًا
+    navigate("/");
+  };
+
+  const isLoggedIn = !!UserToken;
 
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -10,81 +20,67 @@ export default function NavBar() {
         <Link className="navbar-brand" to="/">
           <i className="bi bi-film"></i> MovieApp
         </Link>
-        <button
-          className="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarNav"
-          aria-controls="navbarNav"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span className="navbar-toggler-icon"></span>
-        </button>
+
         <div className="collapse navbar-collapse" id="navbarNav">
-          <ul className="navbar-nav  ms-auto">
-            <li className="nav-item ">
-              <NavLink
-                className={`nav-link ${
-                  activeLink === "home" ? "active-link" : ""
-                }`}
-                to="/"
-                onClick={() => setActiveLink("home")}
-              >
-                <i className="bi bi-house"></i> Home
-              </NavLink>
-            </li>
-            <li className="nav-item dropdown">
-              <NavLink
-                className={`nav-link dropdown-toggle ${
-                  activeLink === "trending" ? "active-link" : ""
-                }`}
-                to="move"
-                id="trendingDropdown"
-                role="button"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-                onClick={() => setActiveLink("trending")}
-              >
-                <i className="bi bi-graph-up"></i> Trending
-              </NavLink>
-              <ul className="dropdown-menu" aria-labelledby="trendingDropdown">
-                <li>
-                  <Link className="dropdown-item" to="/people">
-                    <i className="bi bi-people"></i> People
-                  </Link>
+          <ul className="navbar-nav ms-auto">
+            {isLoggedIn && (
+              <>
+                <li className="nav-item">
+                  <NavLink className="nav-link" to="/home">
+                    <i className="bi bi-house"></i> Home
+                  </NavLink>
                 </li>
-                <li>
-                  <Link className="dropdown-item" to="#">
-                    <i className="bi bi-tv"></i> TV
-                  </Link>
+                <li className="nav-item dropdown">
+                  <NavLink
+                    className="nav-link dropdown-toggle"
+                    to="#"
+                    id="trendingDropdown"
+                    role="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    <i className="bi bi-graph-up"></i> Trending
+                  </NavLink>
+                  <ul
+                    className="dropdown-menu"
+                    aria-labelledby="trendingDropdown"
+                  >
+                    <li>
+                      <Link className="dropdown-item" to="/people">
+                        <i className="bi bi-people"></i> People
+                      </Link>
+                    </li>
+                    <li>
+                      <Link className="dropdown-item" to="#">
+                        <i className="bi bi-tv"></i> TV
+                      </Link>
+                    </li>
+                  </ul>
                 </li>
-              </ul>
-            </li>
-          </ul>
-          <ul className="navbar-nav">
-            <li className="nav-item">
-              <NavLink
-                className={`nav-link ${
-                  activeLink === "signup" ? "active-link" : ""
-                }`}
-                to="/signup"
-                onClick={() => setActiveLink("signup")}
-              >
-                <i className="bi bi-person-plus"></i> SignUp
-              </NavLink>
-            </li>
-            <li className="nav-item">
-              <NavLink
-                className={`nav-link ${
-                  activeLink === "login" ? "active-link" : ""
-                }`}
-                to="/login"
-                onClick={() => setActiveLink("login")}
-              >
-                <i className="bi bi-box-arrow-in"></i> Login
-              </NavLink>
-            </li>
+                <li className="nav-item">
+                  <button
+                    className="nav-link btn btn-link"
+                    onClick={handleSignOut}
+                  >
+                    <i className="bi bi-person-x"></i> SignOut
+                  </button>
+                </li>
+              </>
+            )}
+            {!isLoggedIn && (
+              <>
+                <li className="nav-item">
+                  <NavLink className="nav-link" to="/signup">
+                    <i className="bi bi-person-plus"></i> SignUp
+                  </NavLink>
+                </li>
+                <li className="nav-item">
+                  <NavLink className="nav-link" to="/">
+                    <i className="bi bi-box-arrow-in"></i> Login
+                  </NavLink>
+                </li>
+              </>
+            )}
           </ul>
         </div>
       </div>

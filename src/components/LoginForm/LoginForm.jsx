@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-
+import { ContextData } from "../../ContectContent/ContextContent";
 
 export default function LoginForm() {
+  let { UserToken, setUserToken } = useContext(ContextData);
+
   const [email, setemail] = useState("");
   const [password, setpassword] = useState("");
 
@@ -28,9 +30,11 @@ export default function LoginForm() {
 
     if (data.message === "success") {
       toast.success("You have logged in successfully");
-      setTimeout(() => {
-        navigate("/");
-      }, 2000);
+      console.log(data.token);
+
+      localStorage.setItem("UserToken", data.token);
+      setUserToken(data.token); // <-- ده يحدث الـ context فورًا
+      navigate("/home"); // <-- بدون setTimeout
     } else {
       toast.error("Your email or password is incorrect");
     }
@@ -74,7 +78,7 @@ export default function LoginForm() {
                       }}
                     />
                   </div>
-                  <div className="input-group mb-3"> 
+                  <div className="input-group mb-3">
                     <span className="input-group-text bg-dark border-secondary text-light">
                       <i className="bi bi-lock"></i>
                     </span>
