@@ -48,7 +48,7 @@ export default function LoginForm() {
               <div className="card-body">
                 <div className="d-flex align-items-center justify-content-center mb-4">
                   <i className="bi bi-film signup-logo me-3"></i>
-                  <h2 className="card-title mb-0">Sign Up</h2>
+                  <h2 className="card-title mb-0">Login</h2>
                 </div>
                 <div className="text-center mb-3">
                   <p>Sign up with:</p>
