@@ -48,35 +48,36 @@ export default function NavBar() {
                   </NavLink>
                 </li>
                 <li className="nav-item dropdown">
-                  <NavLink
-                    className="nav-link dropdown-toggle"
-                    to="#"
-                    role="button"
-                    onClick={(e) => e.preventDefault()}
+                  <button
+                    className="nav-link dropdown-toggle btn btn-link"
+                    onClick={() => setIsOpen(!isOpen)}
                   >
                     <i className="bi bi-graph-up"></i> Trending
-                  </NavLink>
-                  <ul className="dropdown-menu">
-                    <li>
-                      <Link
-                        className="dropdown-item"
-                        to="/people"
-                        onClick={() => setIsOpen(false)}
-                      >
-                        <i className="bi bi-people"></i> People
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        className="dropdown-item"
-                        to="#"
-                        onClick={() => setIsOpen(false)}
-                      >
-                        <i className="bi bi-tv"></i> TV
-                      </Link>
-                    </li>
-                  </ul>
+                  </button>
+                  {isOpen && (
+                    <ul className="dropdown-menu show">
+                      <li>
+                        <Link
+                          className="dropdown-item"
+                          to="/people"
+                          onClick={() => setIsOpen(false)}
+                        >
+                          <i className="bi bi-people"></i> People
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          className="dropdown-item"
+                          to="#"
+                          onClick={() => setIsOpen(false)}
+                        >
+                          <i className="bi bi-tv"></i> TV
+                        </Link>
+                      </li>
+                    </ul>
+                  )}
                 </li>
+
                 <li className="nav-item">
                   <button
                     className="nav-link btn btn-link"
