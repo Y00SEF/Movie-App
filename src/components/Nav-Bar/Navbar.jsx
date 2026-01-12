@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { ContextData } from "../../ContectContent/ContextContent";
 
@@ -6,10 +6,13 @@ export default function NavBar() {
   const { UserToken, setUserToken } = useContext(ContextData);
   const navigate = useNavigate();
 
+  const [isOpen, setIsOpen] = useState(false); // state للهامبرغر
+
   const handleSignOut = () => {
     localStorage.removeItem("UserToken");
-    setUserToken(null); // <-- Navbar يتحدث فورًا
+    setUserToken(null);
     navigate("/");
+    setIsOpen(false); // اغلق القائمة بعد SignOut
   };
 
   const isLoggedIn = !!UserToken;
@@ -21,12 +24,26 @@ export default function NavBar() {
           <i className="bi bi-film"></i> MovieApp
         </Link>
 
-        <div className="collapse navbar-collapse" id="navbarNav">
+        {/* Toggle button للهامبرغر */}
+        <button
+          className="navbar-toggler"
+          type="button"
+          onClick={() => setIsOpen(!isOpen)}
+        >
+          <span className="navbar-toggler-icon"></span>
+        </button>
+
+        {/* Collapse menu */}
+        <div className={`collapse navbar-collapse ${isOpen ? "show" : ""}`}>
           <ul className="navbar-nav ms-auto">
             {isLoggedIn && (
               <>
                 <li className="nav-item">
-                  <NavLink className="nav-link" to="/home">
+                  <NavLink
+                    className="nav-link"
+                    to="/home"
+                    onClick={() => setIsOpen(false)}
+                  >
                     <i className="bi bi-house"></i> Home
                   </NavLink>
                 </li>
@@ -34,24 +51,27 @@ export default function NavBar() {
                   <NavLink
                     className="nav-link dropdown-toggle"
                     to="#"
-                    id="trendingDropdown"
                     role="button"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
+                    onClick={(e) => e.preventDefault()}
                   >
                     <i className="bi bi-graph-up"></i> Trending
                   </NavLink>
-                  <ul
-                    className="dropdown-menu"
-                    aria-labelledby="trendingDropdown"
-                  >
+                  <ul className="dropdown-menu">
                     <li>
-                      <Link className="dropdown-item" to="/people">
+                      <Link
+                        className="dropdown-item"
+                        to="/people"
+                        onClick={() => setIsOpen(false)}
+                      >
                         <i className="bi bi-people"></i> People
                       </Link>
                     </li>
                     <li>
-                      <Link className="dropdown-item" to="#">
+                      <Link
+                        className="dropdown-item"
+                        to="#"
+                        onClick={() => setIsOpen(false)}
+                      >
                         <i className="bi bi-tv"></i> TV
                       </Link>
                     </li>
@@ -70,12 +90,20 @@ export default function NavBar() {
             {!isLoggedIn && (
               <>
                 <li className="nav-item">
-                  <NavLink className="nav-link" to="/signup">
+                  <NavLink
+                    className="nav-link"
+                    to="/signup"
+                    onClick={() => setIsOpen(false)}
+                  >
                     <i className="bi bi-person-plus"></i> SignUp
                   </NavLink>
                 </li>
                 <li className="nav-item">
-                  <NavLink className="nav-link" to="/">
+                  <NavLink
+                    className="nav-link"
+                    to="/"
+                    onClick={() => setIsOpen(false)}
+                  >
                     <i className="bi bi-box-arrow-in"></i> Login
                   </NavLink>
                 </li>
