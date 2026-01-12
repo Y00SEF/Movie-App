@@ -30,7 +30,7 @@ export default function SignUpForm() {
     if (data.message === "success") {
       toast.success("You have signed up successfully");
       setTimeout(() => {
-        navigate("/login");
+        navigate("/");
       }, 2000);
     } else {
       toast.error("Your email is already registered");
